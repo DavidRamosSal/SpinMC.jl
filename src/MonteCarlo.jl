@@ -172,7 +172,7 @@ function run!(mc::MonteCarlo{T}; outfile::Union{String,Nothing}=nothing) where T
         end
 
         #parallel tempering temperature recursion
-        if enableMPI && mc.recursionIterations > 0 && mc.recursion <= mc.recursionIterations && (mc.sweep + 1) % mc.recursionRate == 0
+        if enableMPI && mc.sweep < mc.thermalizationSweeps && mc.recursionIterations > 0 && mc.recursion <= mc.recursionIterations && (mc.sweep + 1) % mc.recursionRate == 0
             #measure exchange rates
             replicaExchangeAcceptanceRate = recursionStatistics.acceptedReplicaExchanges / recursionStatistics.attemptedReplicaExchanges
             allReplicaExchangeAcceptanceRate = zeros(commSize)
